@@ -42,6 +42,8 @@ import android.util.Log;
 
 import com.codebutler.android_websockets.WebSocketClient;
 
+//TODO: add onPublishing(false)
+
 public class NodeShareConnection
 {
 	private final static String TAG = "NodeShareClient";
@@ -68,11 +70,14 @@ public class NodeShareConnection
 	public NodeShareConnection(String url, final INodeShareListener listener, String publisher_name)
 	{
 		this.listener = listener;
-		this.extra_headers = Arrays.asList();
 		
-		if(publisher_name != null && publisher_name != "")
+		if(publisher_name == null || publisher_name == "")
 		{
-			extra_headers.add(new BasicNameValuePair("Cookie","publisher=" + publisher_name));
+			this.extra_headers = Arrays.asList();
+		}
+		else
+		{
+			this.extra_headers = Arrays.asList(new BasicNameValuePair("publisher", publisher_name));
 		}
 				
 		/*
@@ -126,6 +131,7 @@ public class NodeShareConnection
 				else if(object.optBoolean("publishing") == true)
 				{
 					publishing = true;
+					listener.onPublishing(true);
 				}
 				else
 				{

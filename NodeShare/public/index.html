@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Bootstrap, from Twitter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="bootstrap/js/html5shiv.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="index.html">SmartCane</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="index.html">Home</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Touch Buttons</li>
+              <li><a>Button #1: <span id="button1"></span></a></li>
+
+              <li class="nav-header">Led Strip</li>
+              <li><a>Led #1: <span id="led1"></span></a></li>
+              <li><a>Led #2: <span id="led2"></span></a></li>
+              <li><a>Led #3: <span id="led3"></span></a></li>
+              <li><a>Led #4: <span id="led4"></span></a></li>
+              <li><a>Led #5: <span id="led5"></span></a></li>
+              <li><a>Led #6: <span id="led6"></span></a></li>
+              <li><a>Led #7: <span id="led7"></span></a></li>
+              <li><a>Led #8: <span id="led8"></span></a></li>
+              <li><a>Led #9: <span id="led9"></span></a></li>
+              <li><a>Led #10: <span id="led10"></span></a></li>
+              <li><a>Led #11: <span id="led11"></span></a></li>
+              <li><a>Led #12: <span id="led12"></span></a></li>
+              <li><a>Led #13: <span id="led13"></span></a></li>
+              <li><a>Led #14: <span id="led14"></span></a></li>
+              <li><a>Led #15: <span id="led15"></span></a></li>
+              <li><a>Led #16: <span id="led16"></span></a></li>
+              <li><a>Led #17: <span id="led17"></span></a></li>
+              <li><a>Led #18: <span id="led18"></span></a></li>
+              <li><a>Led #19: <span id="led19"></span></a></li>
+              <li><a>Led #20: <span id="led20"></span></a></li>
+              <li><a>Led #21: <span id="led21"></span></a></li>
+              
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+          <div class="row-fluid">
+          	<div class="span4">
+            	<img id="camera1" width="300px;" height="300px;" src="http://placehold.it/300x300"></img>
+          	</div>
+          	<div class="span1">
+          	</div>
+          	<div class="span4">
+           		<img id="camera2" width="300px;" height="300px;" src="http://placehold.it/300x300"></img>
+           	</div>
+          </div>
+  				<hr />
+          <div class="row-fluid">
+            <div class="well span4">
+              <h2>Force<h2>
+              <canvas id="force_graph" width="280" height="150"></canvas>
+            </div><!--/span-->
+            <div class="well span4">
+              <h2>Distance</h2>
+              <canvas id="distance_graph" width="280" height="150"></canvas>
+            </div><!--/span-->
+            <div class="well span4">
+              <h2>Tilt</h2>
+              	<canvas id="tilt_graph" width="280" height="150"></canvas>
+            </div><!--/span-->
+          </div><!--/row-->
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; SmartCane 2013</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-2.0.3.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/smoothie.js"></script>
+    <script type="text/javascript">
+    	var ws;
+
+    	window.onload = function()
+    	{
+	      var force_graph = new SmoothieChart();
+	    	var distance_graph = new SmoothieChart();
+	    	var tilt_graph = new SmoothieChart();
+
+				force_graph.streamTo(document.getElementById("force_graph"));
+				distance_graph.streamTo(document.getElementById("distance_graph"));
+				tilt_graph.streamTo(document.getElementById("tilt_graph"));
+
+				var force_data = new TimeSeries();
+				var distance_data = new TimeSeries();
+				var tilt_data = new TimeSeries();
+
+				force_graph.addTimeSeries(force_data);
+				distance_graph.addTimeSeries(distance_data);
+				tilt_graph.addTimeSeries(tilt_data);
+
+				force_graph.streamTo(document.getElementById("force_graph"), 1000); 
+				distance_graph.streamTo(document.getElementById("distance_graph"), 1000); 
+				tilt_graph.streamTo(document.getElementById("tilt_graph"), 1000);
+
+				ws = new WebSocket("ws://" + window.location.hostname + ":8080");
+	    }
+    </script>
+  </body>
+</html>
